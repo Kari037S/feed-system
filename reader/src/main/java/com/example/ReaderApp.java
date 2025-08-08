@@ -15,7 +15,6 @@ public class ReaderApp implements Runnable {
     }
 
     public void start() {
-        // ✅ Always create or get the channel — safe for different JVMs
         Channel channel = InMemoryChannelRegistry.getOrCreateChannel(channelToSubscribe);
 
         Reader reader = new Reader() {
@@ -30,9 +29,8 @@ public class ReaderApp implements Runnable {
             }
         };
 
-        // ✅ Subscribe and start watching
         FeedSystemUtils.subscribeReader(reader, channel);
-        System.out.println("👀 Reader is watching blog: " + channelToSubscribe);
+        System.out.println("Reader is watching blog: " + channelToSubscribe);
         FeedSystemUtils.startWatchingArticles(readerName, channel);
     }
 }
