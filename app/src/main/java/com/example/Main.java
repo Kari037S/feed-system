@@ -14,7 +14,7 @@ public class Main {
     private static final FeedService feedService = new FeedService();
 
     public static void main(String[] args) {
-        System.out.println("📚 Welcome to the Feed System!");
+        System.out.println("Welcome to the Feed System!");
 
         System.out.print("Are you a Publisher (p) or Reader (r)? ");
         String role = scanner.nextLine().trim().toLowerCase();
@@ -22,7 +22,7 @@ public class Main {
         switch (role) {
             case "p" -> feedService.startPublisher();
             case "r" -> feedService.startReader();
-            default -> System.out.println("❌ Invalid option. Please enter 'p' for Publisher or 'r' for Reader.");
+            default -> System.out.println("Invalid option. Please enter 'p' for Publisher or 'r' for Reader.");
         }
     }
 }
