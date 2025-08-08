@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class PublisherApp implements Runnable {
     private final String blogName;
-    private final String authorName; // ✅ New field
+    private final String authorName; 
 
     public PublisherApp(String blogName, String authorName) {
         this.blogName = blogName;
@@ -22,7 +22,7 @@ public class PublisherApp implements Runnable {
         FeedSystemUtils.printPublisherStarted(blogName);
 
         try {
-            FeedSystemUtils.ensureDirectoryExists("Blogs");  // ✅ ensure Blogs/ folder exists
+            FeedSystemUtils.ensureDirectoryExists("Blogs");  
 
             Scanner scanner = new Scanner(System.in);
             while (true) {
@@ -30,15 +30,13 @@ public class PublisherApp implements Runnable {
                 String content = scanner.nextLine().trim();
                 if (content.equalsIgnoreCase("exit now")) break;
 
-                // ✅ Pass actual author name, not blogName
                 Article article = new Article(authorName, blogName, content);
-                channel.publish(article); // publish to in-memory subscribers
+                channel.publish(article); 
 
-                // ✅ Write to Blogs/ folder so ReaderApp can detect changes
                 Path blogFile = FeedSystemUtils.getBlogFilePath(blogName);
                 FeedSystemUtils.writeToFile(blogFile, authorName + "|" + content);
 
-                FeedSystemUtils.printPublished(blogName);  // ✅ feedback
+                FeedSystemUtils.printPublished(blogName);  
             }
 
             scanner.close();
