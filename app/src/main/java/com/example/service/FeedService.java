@@ -30,11 +30,11 @@ public class FeedService {
         List<String> subscriptions = subscriptionManager.loadSubscriptions(readerName);
 
         while (true) {
-            System.out.println("\n📖 Your Subscribed Blogs: " + subscriptions);
-            System.out.println("➕ Press 'a' to Add Channel");
-            System.out.println("➖ Press 'r' to Remove Channel");
-            System.out.println("▶️ Press 'read' to Read a Blog");
-            System.out.println("❌ Press 'e' to Exit");
+            System.out.println("\nYour Subscribed Blogs: " + subscriptions);
+            System.out.println("Press 'a' to Add Channel");
+            System.out.println("Press 'r' to Remove Channel");
+            System.out.println("Press 'read' to Read a Blog");
+            System.out.println("Press 'e' to Exit");
 
             System.out.print("Enter your choice: ");
             String input = scanner.nextLine().trim().toLowerCase();
@@ -46,21 +46,21 @@ public class FeedService {
                             .filter(blog -> !subscriptions.contains(blog))
                             .collect(Collectors.toList());
 
-                    System.out.println("📜 Available Blogs: " + unsubscribed);
+                    System.out.println("Available Blogs: " + unsubscribed);
                     System.out.print("Type blog name to subscribe or 'e' to exit: ");
                     String blogToAdd = scanner.nextLine().trim();
                     if (!blogToAdd.equalsIgnoreCase("e") && unsubscribed.contains(blogToAdd)) {
                         subscriptions.add(blogToAdd);
                         subscriptionManager.saveSubscriptions(readerName, subscriptions);
-                        System.out.println("✅ Subscribed to " + blogToAdd);
+                        System.out.println("Subscribed to " + blogToAdd);
                     } else if (!blogToAdd.equalsIgnoreCase("e")) {
-                        System.out.println("❌ Blog not found or already subscribed.");
+                        System.out.println("Blog not found or already subscribed.");
                     }
                 }
 
                 case "r" -> {
                     if (subscriptions.isEmpty()) {
-                        System.out.println("⚠️ You have no subscriptions to remove.");
+                        System.out.println("You have no subscriptions to remove.");
                         break;
                     }
                     System.out.print("Type blog name to remove or 'e' to exit: ");
@@ -68,9 +68,9 @@ public class FeedService {
                     if (subscriptions.contains(blogToRemove)) {
                         subscriptions.remove(blogToRemove);
                         subscriptionManager.saveSubscriptions(readerName, subscriptions);
-                        System.out.println("✅ Removed " + blogToRemove + " from subscriptions.");
+                        System.out.println("Removed " + blogToRemove + " from subscriptions.");
                     } else if (!blogToRemove.equalsIgnoreCase("e")) {
-                        System.out.println("❌ Blog is not in your list. Try again.");
+                        System.out.println("Blog is not in your list. Try again.");
                     }
                 }
 
@@ -80,18 +80,18 @@ public class FeedService {
                     if (subscriptions.contains(blogToRead)) {
                         Thread readerThread = new Thread(new ReaderApp(readerName, blogToRead));
                         readerThread.start();
-                        System.out.println("🔁 Reading blog... Press 'e' anytime in terminal to exit reader.");
+                        System.out.println("Reading blog... Press 'e' anytime in terminal to exit reader.");
                     } else {
-                        System.out.println("❌ Blog not subscribed.");
+                        System.out.println("Blog not subscribed.");
                     }
                 }
 
                 case "e" -> {
-                    System.out.println("👋 Exiting Feed System...");
+                    System.out.println("Exiting Feed System...");
                     return;
                 }
 
-                default -> System.out.println("❗ Invalid option. Try again.");
+                default -> System.out.println("Invalid option. Try again.");
             }
         }
     }
