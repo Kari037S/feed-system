@@ -24,7 +24,5 @@ public class Channel {
     }
 
     public void publish(Article article) {
-        // Currently handled by file write + WatchService
-        // Can be used for future direct dispatch
     }
 }
