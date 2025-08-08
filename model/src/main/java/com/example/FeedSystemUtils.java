@@ -35,27 +35,26 @@ public interface FeedSystemUtils {
     }
 
     static void printError(String message) {
-        System.out.println("❌ Error: " + message);
+        System.out.println("Error: " + message);
     }
 
     static void printReceivedArticle(String readerName, String blogName, Article article) {
-        System.out.println("\n📢 [" + readerName + "] received article on " + blogName);
+        System.out.println("\n[" + readerName + "] received article on " + blogName);
         System.out.println(article);
     }
 
     static void printSubscribedMessage(String readerName, String blogName) {
-        System.out.println("✅ Reader [" + readerName + "] subscribed");
+        System.out.println("Reader [" + readerName + "] subscribed");
     }
 
     static void printPublisherStarted(String blogName) {
-        System.out.println("🟢 Publisher for blog \"" + blogName + "\" started.");
+        System.out.println("Publisher for blog \"" + blogName + "\" started.");
     }
 
     static void printPublished(String blogName) {
-        System.out.println("✅ Article published to blog: " + blogName);
+        System.out.println("Article published to blog: " + blogName);
     }
 
-    // ✅ ADDED METHODS FOR READER
     static void subscribeReader(Reader reader, Channel channel) {
         channel.subscribe(reader);
         printSubscribedMessage(reader.getName(), channel.getName());
@@ -67,7 +66,6 @@ public interface FeedSystemUtils {
             Path blogFilePath = getBlogFilePath(channel.getName());
 
             try {
-                // ✅ STEP 1: Immediately show last published article (if exists)
                 if (fileExists(blogFilePath)) {
                     String lastLine = readLastLine(blogFilePath);
                     if (!lastLine.isBlank() && lastLine.contains("|")) {
@@ -83,7 +81,6 @@ public interface FeedSystemUtils {
                     }
                 }
 
-                // ✅ STEP 2: Start watching for new content
                 WatchService watchService = FileSystems.getDefault().newWatchService();
                 Path blogDir = Paths.get("Blogs");
                 blogDir.register(watchService, StandardWatchEventKinds.ENTRY_MODIFY);
@@ -93,10 +90,9 @@ public interface FeedSystemUtils {
                     for (WatchEvent<?> event : key.pollEvents()) {
                         Path changed = (Path) event.context();
 
-                        // ✅ Case-insensitive filename match
                         if (changed.toString().equalsIgnoreCase(channel.getName() + ".txt")) {
                             try {
-                                Thread.sleep(50);  // ✅ wait for file write to complete
+                                Thread.sleep(50); 
                             } catch (InterruptedException e) {
                                 Thread.currentThread().interrupt();
                             }
